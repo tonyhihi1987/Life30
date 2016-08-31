@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+
+    <meta charset="UTF-8" name="viewport" content="width=device-width" />    
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="//kendo.cdn.telerik.com/2016.1.412/styles/kendo.common-material.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2016.1.226/styles/kendo.rtl.min.css" />
+    <link href="//kendo.cdn.telerik.com/2016.1.412/styles/kendo.material.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/shared/examples-offline.css" />
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+
+    @RenderSection("styles", false)
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ui.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>    
+    <link href="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.css" rel="stylesheet" />    
+    <script src="~/lib/bootstrap/dist/js/bootstrap-datetimepicker.js"></script>
+    @RenderSection("scripts", false)
+
+    <script src="https://kendo.cdn.telerik.com/2016.1.226/js/kendo.all.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2016.1.226/js/kendo.aspnetmvc.min.js"></script>
+</head>
+
+<body>     
+        <div class="container">
+            <ul class="nav nav-pills">
+                <li id="DashBoard">
+                    <a  asp-controller="DashBoard" asp-action="DashBoard">
+                        <i class="glyphicon glyphicon-th-large" style="color:blue"></i> Tableau de Bord
+                    </a>
+                </li>
+                <li id="Alimentation">
+                <a asp-controller="Objectif" asp-action="Alimentation">
+                    <i class="glyphicon glyphicon-apple" style="color:red"></i> Alimentation
+                    </a>
+                </li>
+                <li id="Sport"><a asp-controller="Objectif" asp-action="Sport">
+                                   <i class="glyphicon glyphicon-flash" style="color:darkorange"></i> Sport
+                    </a></li>
+                <li id="Menage"><a asp-controller="Objectif" asp-action="Tache">
+                                   <i class="glyphicon glyphicon-bed" style="color:dodgerblue"></i> Tâches ménagères</a></li>
+                <li id="finances"><a asp-controller="Objectif" asp-action="Finances">
+                                      <i class="glyphicon glyphicon-euro" style="color:yellow"></i> Finances</a></li>
+                @await Html.PartialAsync("_LoginPartial")
+            </ul>        
+    </div>
+
+    <section id="content" class="content" >
+
+        <div id="realContent" class="realContent">
+            @RenderBody()
+            </div>
+</section>
+
+</body>
+</html>
+
+
+

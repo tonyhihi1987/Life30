@@ -1,0 +1,149 @@
+﻿@model Life30.ViewModels.ObjectifViewModel
+<script src="~/js/objectifs.js"></script>
+<script>
+    $("#@ViewBag.Tab").toggleClass("active");
+</script>
+
+
+@if(ViewBag.Tab !=null)
+{
+    Model.Type = ViewBag.Tab;;
+}
+ <div >
+    <div id="Grid">                
+@(Html.Kendo().Grid<Objectif>()
+.Name("Grid")
+
+.Groupable()
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.Tache);
+        columns.Bound(o => o.NbPoint);
+        columns.Bound(o => o.Date);
+        columns.Bound(o => o.Commentaire);
+
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(172);
+    })
+        .Pageable()
+        .Filterable()
+        .Sortable()
+        .ColumnMenu()
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
+        .Sortable(true)
+        .Events(a => a.DataBound("grid_dataBound"))
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(5)
+        .Model(a =>
+        {
+            a.Id(p => p.Id);
+            a.Field(p => p.ObjTypeId);
+        })
+        .Create(update => update.Action("EditingInline_Create", "Objectif"))
+        .Read(read => read.Action("EditingInline_Read", "Objectif", new { task = this.Model.Type }))
+        .Update(update => update.Action("EditingInline_Update", "Objectif"))
+        .Destroy(update => update.Action("EditingInline_Destroy", "Objectif"))
+     )
+
+                )
+
+</div>
+
+     <div class="panel-group " style="margin-top:25px" id="accordion">
+         <div class="panel panel-default">
+             <div class="panel-heading">
+                 <h4 class="panel-title">
+                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                         <i class="glyphicon glyphicon-plus" style="color:gray" id="plus"></i>
+                     </a>
+                 </h4>
+             </div>
+             <div id="collapse1" class="panel-collapse collapse">
+                 <div class="panel-body">                         
+                         <div class="row">
+                             <div class="col-md-1">
+                                 <input id="type" hidden="hidden" asp-for="Type" /> 
+                                 <span class="label label-info">Tache</span>
+                             </div>
+                             <div class="col-md-1">
+                                 <div class="btn-group">
+                                     <button type="button" class="btn btn-default">Other...</button>
+                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                         <span class="caret"></span>
+                                         <span class="sr-only">Toggle Dropdown</span>
+                                     </button>
+                                     <input id="inputTache" type="hidden" />
+                                     <ul id="tache" class="dropdown-menu">
+                                         @foreach (var value in Model.Items)
+                                         {
+                                             <li><a>@value</a></li>
+                                         }
+                                         <li><a>Other...</a></li>
+                                     </ul>
+                                 </div>
+                             </div>
+
+                         </div>
+                         <div class="row">
+                             <div class="col-md-1">
+                                 <span class="label label-danger">Points</span>
+                             </div>
+                             <div class="col-md-2">
+                                 <div id="tache" class="btn-group">
+                                     <button type="button" class="btn btn-default">0</button>
+                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                         <span class="caret"></span>
+                                         <span class="sr-only">Toggle Dropdown</span>
+                                     </button>
+                                     <ul id="nbPoint" class="dropdown-menu">
+                                         @foreach (var point in Model.nbPoints)
+                                         {
+                                             <li><a>@point</a></li>
+                                         }
+                                     </ul>
+                                     <input id="inputNbPoint" asp-for="NbPoint" type="hidden" />
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-1">
+                                 <span class="label label-success">Date</span>
+                             </div>
+                             <div class="col-md-2">
+                                 <div class='input-group date' id='datetimepicker1'>
+                                     <input id="date" asp-for="Date" type='text' class="form-control" />
+                                     <span class="input-group-addon">
+                                         <span class="glyphicon glyphicon-calendar"></span>
+                                     </span>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-1">
+                                 <span class="label label-warning">Commentaire</span>
+                             </div>
+                             <div class="col-md-2">
+                                 <textarea id="commentaire" asp-for="Commentaire"></textarea>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-11">
+                             </div>
+                             <div class="col-md-1">
+                                 <button id="submit" type="button" class="btn btn-info">Valider</button>
+                             </div>
+
+                         </div>
+                         <input type="hidden" asp-for="Items" />
+                     </div>
+                     <div>
+                         <span class="text-danger" asp-validation-for="Tache"></span>
+                     </div>
+                     <div>
+                         <span id="valDate" class="text-danger" asp-validation-for="Date"></span>
+                     </div>
+                 </div>  
+                 </div>
+             </div>
+     </div>
+   

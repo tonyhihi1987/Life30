@@ -1,0 +1,56 @@
+﻿@model ChartsViewModel  
+<script src="~/js/highcharts.js"></script>
+<script src="~/js/highcharts-more.js"></script>
+<script>
+    $().ready(function () {       
+        $("#content").slideToggle(500);
+        $("#DashBoard").toggleClass("active");
+    });
+</script>
+<div class="row">
+    <div class="row">
+        <img src="~/diane.svg" height="50" width="50" />  
+        <span class="userTitle" > Diane </span>
+        @(Html.Kendo().DatePicker()
+          .Name("datepicker")
+        )
+    </div>
+
+    <div class="col-md-6">          
+      @Html.Raw(Model.Charts[0].ToHtmlString())        
+    </div>   
+
+    <div class="col-md-6">
+      @Html.Raw(Model.Charts[1].ToHtmlString())
+    </div>        
+
+    <div class="row">
+        <img src="~/boy.svg" height="50" width="50" />
+        <span class="userTitle"> Clément </span>
+    </div>
+
+    <div class="col-md-6">
+      @Html.Raw(Model.Charts[2].ToHtmlString())
+    </div>    
+     
+    <div class="col-md-6">
+     @Html.Raw(Model.Charts[3].ToHtmlString())
+    </div>          
+</div>
+<!-- Modal -->
+<div class="modal  fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Points Repartition</h4>
+            </div>
+            <div id="objInfos"  >
+               @Html.Partial("ObjectifInfo")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

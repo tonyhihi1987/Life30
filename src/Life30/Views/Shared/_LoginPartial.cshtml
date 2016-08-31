@@ -1,0 +1,22 @@
+﻿@using System.Security.Claims
+
+@if (User.IsSignedIn())
+{
+    <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
+        <ul >
+            <li style="list-style-type: none;padding-right:15px">
+                <label  style="color:grey" asp-action="Index" title="Manage">@User.GetUserName()</label>
+</li>
+            <li style="list-style-type: none;margin-right:15px">
+                <button type="submit" class="btn btn-danger">Log off</button>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li><a asp-controller="Account" asp-action="Register">Nouvelle utilisateur</a></li>
+        <li><a asp-controller="Account" asp-action="Login">Authentification</a></li>
+    </ul>
+}
