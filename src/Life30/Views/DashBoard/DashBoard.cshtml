@@ -7,50 +7,80 @@
         $("#DashBoard").toggleClass("active");
     });
 </script>
-<div class="row">
+<form action="@Url.Action("RefreshDashBoard", "DashBoard")" method="POST" class="ajax-form">
     <div class="row">
-        <img src="~/diane.svg" height="50" width="50" />  
-        <span class="userTitle" > Diane </span>
-        @(Html.Kendo().DatePicker()
-          .Name("datepicker")
-        )
-    </div>
-
-    <div class="col-md-6">          
-      @Html.Raw(Model.Charts[0].ToHtmlString())        
-    </div>   
-
-    <div class="col-md-6">
-      @Html.Raw(Model.Charts[1].ToHtmlString())
-    </div>        
-
-    <div class="row">
-        <img src="~/boy.svg" height="50" width="50" />
-        <span class="userTitle"> Clément </span>
-    </div>
-
-    <div class="col-md-6">
-      @Html.Raw(Model.Charts[2].ToHtmlString())
-    </div>    
-     
-    <div class="col-md-6">
-     @Html.Raw(Model.Charts[3].ToHtmlString())
-    </div>          
-</div>
-<!-- Modal -->
-<div class="modal  fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Points Repartition</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="~/diane.svg" height="50" width="50" />
+                <span class="userTitle"> Diane </span>
             </div>
-            <div id="objInfos"  >
-               @Html.Partial("ObjectifInfo")
+            <div class="col-md-6" style="margin-bottom:10px">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-4">
+                        <label>Start :  </label>
+                        @(Html.Kendo().DatePicker()
+          .Name("startDate")
+          .Value(Model.StartDate)
+                        )
+                    </div>
+                    <div class="col-md-5">
+                        <div class="row rowNoBottom">
+                            <div class="col-md-9">
+                                <label>End :  </label>
+                                @(Html.Kendo().DatePicker()
+          .Name("endDate")
+          .Value(Model.EndDate)
+                                )
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-default">
+                                    <i class="glyphicon glyphicon-refresh"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+
+        <div class="col-md-6">
+            @Html.Raw(Model.Charts[0].ToHtmlString())
+        </div>
+
+        <div class="col-md-6">
+            @Html.Raw(Model.Charts[1].ToHtmlString())
+        </div>
+
+        <div class="row">
+            <img src="~/boy.svg" height="50" width="50" />
+            <span class="userTitle"> Clément </span>
+        </div>
+
+        <div class="col-md-6">
+            @Html.Raw(Model.Charts[2].ToHtmlString())
+        </div>
+
+        <div class="col-md-6">
+            @Html.Raw(Model.Charts[3].ToHtmlString())
+        </div>
+    </div>
+    <!-- Modal -->
+
+    <div class="modal  fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Points Repartition</h4>
+                </div>
+                <div id="objInfos">
+                    @Html.Partial("ObjectifInfo")
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</form>

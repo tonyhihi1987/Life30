@@ -65,21 +65,27 @@
                                  <input id="type" hidden="hidden" asp-for="Type" /> 
                                  <span class="label label-info">Tache</span>
                              </div>
-                             <div class="col-md-1">
-                                 <div class="btn-group">
-                                     <button type="button" class="btn btn-default">Other...</button>
-                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                         <span class="caret"></span>
-                                         <span class="sr-only">Toggle Dropdown</span>
-                                     </button>
-                                     <input id="inputTache" type="hidden" />
-                                     <ul id="tache" class="dropdown-menu">
-                                         @foreach (var value in Model.Items)
-                                         {
-                                             <li><a>@value</a></li>
-                                         }
-                                         <li><a>Other...</a></li>
-                                     </ul>
+                             <div class="col-md-3">
+                                 <div class="row rowNoBottom">
+                                     <div class="col-md-4">
+                                         <div class="btn-group">
+                                             <button type="button" class="btn btn-default">Other...</button>
+                                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                 <span class="caret"></span>
+                                                 <span class="sr-only">Toggle Dropdown</span>
+                                             </button>
+                                             <ul id="tache" class="dropdown-menu">
+                                                 @foreach (var value in Model.Items)
+                                                 {
+                                                     <li><a>@value</a></li>
+                                                 }
+                                                 <li><a>Other...</a></li>
+                                             </ul>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-5">
+                                         <input type="text" style="float:left" class="form-control" id="inputTache" />
+                                     </div>
                                  </div>
                              </div>
 

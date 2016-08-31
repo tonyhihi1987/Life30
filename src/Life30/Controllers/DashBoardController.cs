@@ -25,13 +25,36 @@ namespace Life30.Controllers
 
         public IActionResult DashBoard()
         {
+            var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, DateTime.Now.Day);
+            var endDate = DateTime.Now;
+            var highCharts = getCharts(startDate,endDate);
+            return View(new ChartsViewModel { Charts = highCharts, StartDate = startDate,EndDate= endDate });
+        }
+
+        [HttpPost]
+        public IActionResult RefreshDashBoard(ChartsViewModel chartsVm)
+        {            
+
+            var highCharts = getCharts(chartsVm.StartDate, chartsVm.EndDate);
+            return View("DashBoard",new ChartsViewModel { Charts = highCharts, StartDate = chartsVm.StartDate, EndDate = chartsVm.EndDate });
+
+        }
+        private List<ACharts>  getCharts(DateTime startDate,DateTime endDate)
+        {
             var dianeId = userCtx.GetUserIdWhithName("Diane");
             var clementId = userCtx.GetUserIdWhithName("Clem");
 
-            var objByTypeDiane = objCtx.GetObjectifs().GroupBy(a => a.ObjTypeId).ToDictionary(a => objCtx.GetObjectifTypeById(a.Key).Name, z => z.Where(a => a.UserId.Equals(dianeId)).ToList());
-            var objByTypeClement = objCtx.GetObjectifs().GroupBy(a => a.ObjTypeId).ToDictionary(a => objCtx.GetObjectifTypeById(a.Key).Name, z => z.Where(a => a.UserId.Equals(clementId)).ToList());
+            var objByTypeDiane = objCtx.GetObjectifs()
+                                .GroupBy(a => a.ObjTypeId)
+                                .ToDictionary(a => objCtx.GetObjectifTypeById(a.Key).Name, z => z.
+                                Where(a => a.UserId.Equals(dianeId) && a.Date >=startDate && a.Date <=endDate).OrderBy(a=>a.Date).ToList());
+            var objByTypeClement = objCtx.GetObjectifs()
+                                  .GroupBy(a => a.ObjTypeId).ToDictionary(a => objCtx.GetObjectifTypeById(a.Key).Name, z => z.
+                                  Where(a => a.UserId.Equals(clementId) && a.Date >= startDate && a.Date <= endDate).OrderBy(a => a.Date).ToList());
 
-            var allDate = objCtx.GetObjectifs().Select(a => a.Date.ToString()).ToList();
+            var allDate = objCtx.GetObjectifs().Select(a => a.Date).OrderBy(a=>a.Date)
+                                .Where(a => a >= startDate && a <= endDate)
+                                .Select(a => a.ToString()).ToList();
             var Area = new Spline("area", objByTypeDiane, allDate);
             var Pie = new Pie("Pie", objByTypeDiane);
             var aa = new Spline("aa", objByTypeClement, allDate);
@@ -46,7 +69,7 @@ namespace Life30.Controllers
                     chart.ComputeChart();
                 }
             }
-            return View(new ChartsViewModel { Charts = higCharts });
+            return higCharts;
         }
 
         [HttpPost]
