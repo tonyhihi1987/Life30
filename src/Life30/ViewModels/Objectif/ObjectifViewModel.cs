@@ -1,4 +1,5 @@
 ﻿using Life30.Models;
+using Life30.Models.Charts;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -27,6 +28,7 @@ namespace Life30.ViewModels
         public int UserId { get; set; }
         public int[] nbPoints { get; set; } = new int[30];
         public string Type { get; set; }
+        public List<ACharts> Charts { get; set; } = new List<ACharts>();
 
 
     }

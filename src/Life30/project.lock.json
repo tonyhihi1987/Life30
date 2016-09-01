@@ -9256,8 +9256,8 @@
       "Microsoft.Extensions.Logging.Debug >= 1.0.0-rc1-final",
       "Microsoft.VisualStudio.Web.BrowserLink.Loader >= 14.0.0-rc1-final",
       "Kendo.Mvc >= 2016.1.301",
-      "DotNet.Highcharts >= 4.0.0",
-      "Newtonsoft.Json >= 9.0.1"
+      "Newtonsoft.Json >= 9.0.1",
+      "DotNet.Highcharts >= 4.0.0"
     ],
     "DNX,Version=v4.5.1": [
       "fx/System.Drawing >= 4.0.0"

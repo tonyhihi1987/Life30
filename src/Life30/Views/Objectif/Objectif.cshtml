@@ -1,7 +1,10 @@
 ﻿@model Life30.ViewModels.ObjectifViewModel
 <script src="~/js/objectifs.js"></script>
+<script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 <script>
     $("#@ViewBag.Tab").toggleClass("active");
+   
+
 </script>
 
 
@@ -9,11 +12,12 @@
 {
     Model.Type = ViewBag.Tab;;
 }
- <div >
-    <div id="Grid">                
-@(Html.Kendo().Grid<Objectif>()
-.Name("Grid")
+ <div class="row">
+    <div class="col-md-9">
 
+        <div id="Grid">
+            @(Html.Kendo().Grid<Objectif>()
+.Name("Grid")
 .Groupable()
     .Columns(columns =>
     {
@@ -24,7 +28,7 @@
 
         columns.Command(command => { command.Edit(); command.Destroy(); }).Width(172);
     })
-        .Pageable()
+        .Pageable()     
         .Filterable()
         .Sortable()
         .ColumnMenu()
@@ -33,7 +37,7 @@
         .Events(a => a.DataBound("grid_dataBound"))
         .DataSource(dataSource => dataSource
         .Ajax()
-        .PageSize(5)
+        .PageSize(4)
         .Model(a =>
         {
             a.Id(p => p.Id);
@@ -45,9 +49,15 @@
         .Destroy(update => update.Action("EditingInline_Destroy", "Objectif"))
      )
 
-                )
+            )
 
+        </div>
+    </div>
+     <div class ="col-md-3">
+    @Html.Raw(Model.Charts.First().ToHtmlString())
+    @Html.Raw(Model.Charts[1].ToHtmlString())
 </div>
+ </div>
 
      <div class="panel-group " style="margin-top:25px" id="accordion">
          <div class="panel panel-default">

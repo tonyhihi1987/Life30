@@ -11,6 +11,7 @@ namespace Life30.Models.Charts
         public Title Title { get; set; }
         public Credits Credit { get { return new Credits { Enabled = false }; } }
         public Subtitle Subtitle { get; set; }
+        public Pane pane { get; set;}
         public Chart Chart { get; set; }
         public XAxis XAxis { get; set; }
         public YAxis YAxis { get; set; }
