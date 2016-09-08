@@ -16,9 +16,9 @@ namespace Life30.ViewModels
 
         }
         public List<Objectif> Objectifs { get; set; }
-
+        public Boolean isValid { get; set; } = true;
         public int Id { get; set; }
-        [Required]
+        [Required]        
         public int NbPoint { get; set; }
         public List<string> Items { get; set; } = new List<string>();
         [Required(ErrorMessage = "La Tache est obligatoire")]
@@ -26,7 +26,7 @@ namespace Life30.ViewModels
         public DateTime Date { get; set; }
         public string Commentaire { get; set; }
         public int UserId { get; set; }
-        public int[] nbPoints { get; set; } = new int[30];
+        public List<int> nbPoints { get; set; } = new List<int>{ 1, 2, 3, 4, 5};
         public string Type { get; set; }
         public List<ACharts> Charts { get; set; } = new List<ACharts>();
 

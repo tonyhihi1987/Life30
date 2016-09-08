@@ -6,6 +6,7 @@ using System;
 using System.Drawing;
 using Life30.ViewModels;
 using DotNet.Highcharts.Enums;
+using Life30.Helpers;
 
 namespace Life30.Models.Charts
 {
@@ -19,8 +20,8 @@ namespace Life30.Models.Charts
         }
         public override void ComputeChart()
         {
-            InitChart(new Chart() { PlotBorderWidth = 0, PlotShadow = false,Height=200 })
-                .SetTitle(new Title { Text = name, Align = HorizontalAligns.Center, VerticalAlign = VerticalAligns.Middle, Y = 50 })
+            InitChart(new Chart() { PlotBorderWidth = 0, PlotShadow = false,Height=200,Width=360 })                
+                .SetTitle(new Title() { Text = string.Empty })
                 .SetTooltip(new Tooltip { PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>" })
                 .SetPlotOptions(new PlotOptions
                 {
@@ -32,16 +33,17 @@ namespace Life30.Models.Charts
                         DataLabels = new PlotOptionsPieDataLabels
                         {
                             Enabled = true,
-                            Distance = -50,
-                            Style = "fontWeight: 'bold', color: 'white', textShadow: '0px 1px 2px black'"
+                            Distance = 0,
+                            Style = "color: 'grey'"
                         }
                     }
                 })
+                .SetCredits(new Credits { Enabled = false })
                 .SetOptions(new GlobalOptions() { Colors = colors.ToArray() })
                 .SetSeries(new Series
                 {
                     Type = ChartTypes.Pie,
-                    Name = "Browser share",
+                    Name = "Points",
                     PlotOptionsPie = new PlotOptionsPie { InnerSize = new PercentageOrPixel(50, true) },
                     Data = ComputeData()
                 });
@@ -55,9 +57,12 @@ namespace Life30.Models.Charts
             var objectifs = objByType.First().Value;
             if (objectifs != null)
             {               
-                datas.Add(objectifs.Select(a=>a.NbPoint).Sum());
-                datas.Add(30 - objectifs.Select(a => a.NbPoint).Sum());
+                datas.Add(new object[] {"completed",objectifs.Select(a => a.NbPoint).Sum() });
+                var toBeCompleted = 30 - objectifs.Select(a => a.NbPoint).Sum();
 
+                if (toBeCompleted < 0) toBeCompleted = 0;
+
+                datas.Add(new object[] { "to complete", toBeCompleted });
             }
             return new Data(datas.ToArray());
         }

@@ -23,10 +23,6 @@ namespace Life30.Controllers
             this.objCtx = objCtx;
             this.userCtx = userCtx;
             objVm = new ObjectifViewModel();
-            for (int i = 1; i < 31; i++)
-            {
-                objVm.nbPoints[i - 1] = i;
-            }
 
         }
         private IActionResult UpdateVm(string name)
@@ -88,18 +84,15 @@ namespace Life30.Controllers
         }
 
         [HttpPost]
-        public JsonResult AddTask(ObjectifViewModel objVm)
+        public ActionResult AddTask(ObjectifViewModel objVm)
         {
-            JsonResult result;
-
-
+            string type = objVm.Type;
             if (ModelState.IsValid)
             {
-                string type = objVm.Type;
+              
 
                 ObjectifType objectifType = objCtx.GetObjectifTypeByName(type);
                 objectifType.Items = new List<Item>();
-
 
                 if (!objVm.Items.Contains(objVm.Tache))
                 {
@@ -117,19 +110,18 @@ namespace Life30.Controllers
                 };
 
                 objCtx.AddObjectif(objectif);
-                objVm = new ObjectifViewModel();
-                initViewModel(objVm, type);
                 objVm.Objectifs = objCtx.GetObjectifsByType(type);
-                result = Json(new { success = true, view = RenderPartialViewToString("Objectif", objVm) });
-
+                objVm.Commentaire = string.Empty;
+                objVm.Date = DateTime.Now;
+                objVm.NbPoint = 0;
             }
             else
             {
-                initViewModel(objVm, objVm.Type);
-                objVm.Objectifs = objCtx.GetObjectifsByType(objVm.Type);
-                result = Json(new { success = false, view = RenderPartialViewToString("Objectif", objVm), date = objVm.Date.ToString() });
+                objVm.Date = DateTime.Now;
+                objVm.isValid = false;
             }
-            return result;
+            initViewModel(objVm, type);
+            return View("Objectif", objVm);
 
         }
 
@@ -173,23 +165,14 @@ namespace Life30.Controllers
 
         private void initViewModel(ObjectifViewModel obj, string task)
         {
-
-            InitNbPoints(obj);
             SetItems(task, obj);
-            var lastMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, DateTime.Now.Day);
-            var lastLastMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 2, DateTime.Now.Day); ;
-            SetCharts(task,"ThisMonth", lastMonth,DateTime.Now);
-            SetCharts(task,"LastMonth", lastLastMonth,lastMonth);
+            var lastMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            var lastLastMonth = lastMonth.AddMonths(-1);
+            SetCharts(task,"ThisMonth", lastMonth,DateTime.Now,obj);
+            SetCharts(task,"LastMonth", lastLastMonth,lastMonth, obj);
         }
 
-        private void InitNbPoints(ObjectifViewModel objVm)
-        {
-            for (int i = 1; i < 31; i++)
-            {
-                objVm.nbPoints[i - 1] = i;
-            }
-        }
-        private void SetCharts(string task,string name ,DateTime startDate, DateTime endDate)
+        private void SetCharts(string task,string name ,DateTime startDate, DateTime endDate,ObjectifViewModel objVm)
         {
             var objectifs = objCtx.GetObjectifsByType(task);
             ACharts chart = new Gauge(name, new Dictionary<string, List<Objectif>> { { name, objectifs.Where(a=>a.Date>=startDate && a.Date<=endDate).ToList() } });

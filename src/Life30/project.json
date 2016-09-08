@@ -39,7 +39,8 @@
   "frameworks": {
     "dnx451": {
       "frameworkAssemblies": {
-        "System.Drawing": "4.0.0.0"
+        "System.Drawing": "4.0.0.0",
+        "System.Runtime.Caching": "4.0.0.0"
       }
 
     }

@@ -9260,7 +9260,8 @@
       "DotNet.Highcharts >= 4.0.0"
     ],
     "DNX,Version=v4.5.1": [
-      "fx/System.Drawing >= 4.0.0"
+      "fx/System.Drawing >= 4.0.0",
+      "fx/System.Runtime.Caching >= 4.0.0"
     ]
   }
 }

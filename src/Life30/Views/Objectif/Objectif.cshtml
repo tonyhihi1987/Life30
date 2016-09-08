@@ -3,22 +3,20 @@
 <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 <script>
     $("#@ViewBag.Tab").toggleClass("active");
-   
-
 </script>
 
+<form action="@Url.Action("AddTask", "Objectif")" method="POST" class="ajax-form">
+    @if (ViewBag.Tab != null)
+    {
+        Model.Type = ViewBag.Tab; ;
+    }
+    <div class="row">
+        <div class="col-md-9">
 
-@if(ViewBag.Tab !=null)
-{
-    Model.Type = ViewBag.Tab;;
-}
- <div class="row">
-    <div class="col-md-9">
-
-        <div id="Grid">
-            @(Html.Kendo().Grid<Objectif>()
-.Name("Grid")
-.Groupable()
+            <div id="Grid">
+                @(Html.Kendo().Grid<Objectif>()
+    .Name("Grid")
+    .Groupable()
     .Columns(columns =>
     {
         columns.Bound(o => o.Tache);
@@ -28,7 +26,7 @@
 
         columns.Command(command => { command.Edit(); command.Destroy(); }).Width(172);
     })
-        .Pageable()     
+        .Pageable()
         .Filterable()
         .Sortable()
         .ColumnMenu()
@@ -48,118 +46,150 @@
         .Update(update => update.Action("EditingInline_Update", "Objectif"))
         .Destroy(update => update.Action("EditingInline_Destroy", "Objectif"))
      )
+                )
 
-            )
+            </div>
+        </div>
+        <div class="col-md-3">
+            
+            @if (Model.Charts.Any())
+            {
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="text-align:center" >
+                        <label style="color:grey">Last Month</label>
+                    </div>
+                        @Html.Raw(Model.Charts.First().ToHtmlString())
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="text-align:center">
+                            <label style="color:grey">This Month</label>
+                        </div>
+                        @Html.Raw(Model.Charts[1].ToHtmlString())
+                    </div>
+            }
+                </div>
+    </div>
 
+    <div class="panel-group " style="margin-top:25px" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                        <i class="glyphicon glyphicon-plus" style="color:gray" id="plus"></i>
+                    </a>
+                </h4>
+            </div>
+            <div>
+                @{ 
+                    var collapse =Model.isValid? "panel-collapse collapse": "panel-collapse in";                    
+                }
+                <div id="collapse1" class="@collapse">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-1">
+                                
+                                <span class="label label-info">Tache</span>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="row rowNoBottom">
+                                    <div class="col-md-4">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default">Other...</button>
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <ul id="tache" class="dropdown-menu">
+                                                @if (Model.Items.Any())
+                                                {
+                                                    foreach (var value in Model.Items)
+                                                    {
+                                                        <li><a>@value</a></li>
+                                                    }
+                                                }
+                                                <li><a>Other...</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input id="inputNbPoint" asp-for="NbPoint" type="hidden" />
+                                        <input id="type" hidden="hidden" asp-for="Type" />
+                                        <input id="inputTache" type="text" asp-for="Tache" style="float:left" class="form-control" />
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                <span class="label label-danger">Points</span>
+                            </div>
+                            <div class="col-md-2">
+                                <div id="tache" class="btn-group">
+                                    <button type="button" class="btn btn-default">0</button>
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul id="nbPoint" class="dropdown-menu">
+                                        @if (Model.nbPoints.Any())
+                                        {
+                                            foreach (var point in Model.nbPoints)
+                                            {
+                                                <li><a>@point</a></li>
+                                            }
+                                        }
+                                    </ul>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                <span class="label label-success">Date</span>
+                            </div>
+                            <div class="col-md-2">
+                                @(Html.Kendo().DatePicker()
+                                .Name("datePicker")
+                                .Value(Model.Date)
+                                .Events(e =>
+                                {
+                                    e.Change("change");
+                                })
+                                )
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-1">
+                                <span class="label label-warning">Commentaire</span>
+                            </div>
+                            <div class="col-md-2">
+                                <textarea id="commentaire" asp-for="Commentaire"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-11">
+                            </div>
+                            <div class="col-md-1">
+                                <button id="submit" type="submit" class="btn btn-info">Valider</button>
+                            </div>
+                        </div>
+                        <input type="hidden" asp-for="Items" />
+                    </div>
+                    <div>
+                        <span class="text-danger" asp-validation-for="Tache"></span>
+                    </div>
+                    <div>
+                        <span id="valDate" class="text-danger" asp-validation-for="Date"></span>
+                    </div>
+                </div>
+                </div>
         </div>
     </div>
-     <div class ="col-md-3">
-    @Html.Raw(Model.Charts.First().ToHtmlString())
-    @Html.Raw(Model.Charts[1].ToHtmlString())
-</div>
- </div>
-
-     <div class="panel-group " style="margin-top:25px" id="accordion">
-         <div class="panel panel-default">
-             <div class="panel-heading">
-                 <h4 class="panel-title">
-                     <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                         <i class="glyphicon glyphicon-plus" style="color:gray" id="plus"></i>
-                     </a>
-                 </h4>
-             </div>
-             <div id="collapse1" class="panel-collapse collapse">
-                 <div class="panel-body">                         
-                         <div class="row">
-                             <div class="col-md-1">
-                                 <input id="type" hidden="hidden" asp-for="Type" /> 
-                                 <span class="label label-info">Tache</span>
-                             </div>
-                             <div class="col-md-3">
-                                 <div class="row rowNoBottom">
-                                     <div class="col-md-4">
-                                         <div class="btn-group">
-                                             <button type="button" class="btn btn-default">Other...</button>
-                                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                 <span class="caret"></span>
-                                                 <span class="sr-only">Toggle Dropdown</span>
-                                             </button>
-                                             <ul id="tache" class="dropdown-menu">
-                                                 @foreach (var value in Model.Items)
-                                                 {
-                                                     <li><a>@value</a></li>
-                                                 }
-                                                 <li><a>Other...</a></li>
-                                             </ul>
-                                         </div>
-                                     </div>
-                                     <div class="col-md-5">
-                                         <input type="text" style="float:left" class="form-control" id="inputTache" />
-                                     </div>
-                                 </div>
-                             </div>
-
-                         </div>
-                         <div class="row">
-                             <div class="col-md-1">
-                                 <span class="label label-danger">Points</span>
-                             </div>
-                             <div class="col-md-2">
-                                 <div id="tache" class="btn-group">
-                                     <button type="button" class="btn btn-default">0</button>
-                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                         <span class="caret"></span>
-                                         <span class="sr-only">Toggle Dropdown</span>
-                                     </button>
-                                     <ul id="nbPoint" class="dropdown-menu">
-                                         @foreach (var point in Model.nbPoints)
-                                         {
-                                             <li><a>@point</a></li>
-                                         }
-                                     </ul>
-                                     <input id="inputNbPoint" asp-for="NbPoint" type="hidden" />
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="row">
-                             <div class="col-md-1">
-                                 <span class="label label-success">Date</span>
-                             </div>
-                             <div class="col-md-2">
-                                 <div class='input-group date' id='datetimepicker1'>
-                                     <input id="date" asp-for="Date" type='text' class="form-control" />
-                                     <span class="input-group-addon">
-                                         <span class="glyphicon glyphicon-calendar"></span>
-                                     </span>
-                                 </div>
-                             </div>
-                         </div>
-                         <div class="row">
-                             <div class="col-md-1">
-                                 <span class="label label-warning">Commentaire</span>
-                             </div>
-                             <div class="col-md-2">
-                                 <textarea id="commentaire" asp-for="Commentaire"></textarea>
-                             </div>
-                         </div>
-                         <div class="row">
-                             <div class="col-md-11">
-                             </div>
-                             <div class="col-md-1">
-                                 <button id="submit" type="button" class="btn btn-info">Valider</button>
-                             </div>
-
-                         </div>
-                         <input type="hidden" asp-for="Items" />
-                     </div>
-                     <div>
-                         <span class="text-danger" asp-validation-for="Tache"></span>
-                     </div>
-                     <div>
-                         <span id="valDate" class="text-danger" asp-validation-for="Date"></span>
-                     </div>
-                 </div>  
-                 </div>
-             </div>
-     </div>
-   
+    </form>
+<script>
+    function change() {
+        $('#date').val(kendo.toString(this.value(), 'd'));
+    }
+</script>

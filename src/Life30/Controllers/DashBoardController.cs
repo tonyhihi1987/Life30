@@ -10,6 +10,7 @@ using System.Security.Claims;
 using DotNet.Highcharts.Options;
 using DotNet.Highcharts.Helpers;
 using Life30.Models.Charts;
+using Life30.Helpers;
 
 namespace Life30.Controllers
 {
@@ -25,8 +26,28 @@ namespace Life30.Controllers
 
         public IActionResult DashBoard()
         {
-            var startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, DateTime.Now.Day);
-            var endDate = DateTime.Now;
+
+            var startDate = new DateTime();
+            var endDate = new DateTime();
+
+            if (MemoryCacher.Contain(CacheKey.START_DATE.GetDescription()))
+            {
+                startDate = Convert.ToDateTime(MemoryCacher.GetValue(CacheKey.START_DATE.GetDescription()));
+            }
+            else
+            {
+                startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, DateTime.Now.Day);
+            }
+
+            if (MemoryCacher.Contain(CacheKey.END_DATE.GetDescription()))
+            {
+                endDate = Convert.ToDateTime(MemoryCacher.GetValue(CacheKey.END_DATE.GetDescription()));
+            }
+            else
+            {
+                endDate = DateTime.Now;
+            }
+
             var highCharts = getCharts(startDate,endDate);
             return View(new ChartsViewModel { Charts = highCharts, StartDate = startDate,EndDate= endDate });
         }
@@ -36,6 +57,8 @@ namespace Life30.Controllers
         {            
 
             var highCharts = getCharts(chartsVm.StartDate, chartsVm.EndDate);
+            MemoryCacher.Add(CacheKey.START_DATE.GetDescription(), chartsVm.StartDate,DateTime.Now.AddDays(1));
+            MemoryCacher.Add(CacheKey.END_DATE.GetDescription(), chartsVm.EndDate,DateTime.Now.AddDays(1));
             return View("DashBoard",new ChartsViewModel { Charts = highCharts, StartDate = chartsVm.StartDate, EndDate = chartsVm.EndDate });
 
         }
