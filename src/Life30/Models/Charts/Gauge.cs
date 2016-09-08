@@ -20,7 +20,7 @@ namespace Life30.Models.Charts
         }
         public override void ComputeChart()
         {
-            InitChart(new Chart() { PlotBorderWidth = 0, PlotShadow = false,Height=200,Width=360 })                
+            InitChart(new Chart() { PlotBorderWidth = 0, PlotShadow = false,Height=200,Width=320 })                
                 .SetTitle(new Title() { Text = string.Empty })
                 .SetTooltip(new Tooltip { PointFormat = "{series.name}: <b>{point.percentage:.1f}%</b>" })
                 .SetPlotOptions(new PlotOptions
