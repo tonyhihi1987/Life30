@@ -24,7 +24,7 @@ namespace Life30.Controllers
             List<string> notifs = new List<string>();
             foreach (var obj in objs)
             {                
-                if (obj.Date >= DateTime.Now.AddDays(-7))
+                if (obj.Date >= DateTime.Now.AddDays(-7) && obj.Date <= DateTime.Now)
                 {
                     var type = objCtx.GetObjectifTypeById(obj.ObjTypeId).Name;
                     var user = userCtx.GetUserNameWhithId(obj.UserId);

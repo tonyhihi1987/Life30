@@ -7,7 +7,7 @@
         @foreach (var notif in Model.Notifs)
         {
             var background = notif.Contains("Diane") ? "pink" : "#47BBED";
-            <div class="notification" >
+            <div class="notification" hidden="hidden" >
                 <label><i class="glyphicon glyphicon-time" style="color:@background" ></i>  @notif</label>
             </div>
         }

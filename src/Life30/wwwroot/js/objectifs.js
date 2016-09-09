@@ -20,10 +20,15 @@
         $.get("/Notification/GetObjectifs",
               {                  
               },
-                function (obj) {
-                    (
-                        $("#appendto").html(obj)
-                    )
+                function (obj) {                    
+                    $("#appendto").html(obj);
+                    var i = 1000;
+                        $('.notification').each(function () {
+                            $(this).fadeIn(i);
+                            i += 450;
+                    }
+                    );
+                    
                     });
 
         $(this).css({"background":""});
