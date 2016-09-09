@@ -64,7 +64,7 @@
             </div>
     </div>
 
-    <div class="row rowNoBottom">
+    <div class="row rowNoBottom" style="height:650px">
 
         <div class ="col-md-10">
     <section id="content" class="content" >
@@ -75,32 +75,12 @@
     </section>
         </div>
         <div class="col-md-2">
-            @(Html.Kendo().Notification()
-    .Name("popupNotification")
-            )
-
-            @(Html.Kendo().Notification()
-    .Name("staticNotification")
-    .AppendTo("#appendto")
-            )
-            <div id="appendto"></div>
+            <div id="appendto">
+                @await Html.PartialAsync("Notification",new NotificationViewModel())
+            </div>
         </div>
        </div>
 
 </body>
 </html>
 
-<script>
-    $(document).ready(function () {
-        
-                var popupNotification = $("#popupNotification").data("kendoNotification");
-                var staticNotification = $("#staticNotification").data("kendoNotification");
-
-                var d = new Date();
-                staticNotification.show(kendo.toString(d, 'HH:MM:ss.') + kendo.toString(d.getMilliseconds(), "000"), "info");
-                var container = $(staticNotification.options.appendTo);
-                container.scrollTop(container[0].scrollHeight);
-               
-    });        
-    
-</script>

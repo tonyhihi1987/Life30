@@ -1,0 +1,14 @@
+﻿@model NotificationViewModel 
+<div class="panel panel-default">
+    <div class="panel-heading" style="text-align:center">
+        <label style="color:grey">Notifications</label>
+        </div>
+
+        @foreach (var notif in Model.Notifs)
+        {
+            var background = notif.Contains("Diane") ? "pink" : "#47BBED";
+            <div class="notification" >
+                <label><i class="glyphicon glyphicon-time" style="color:@background" ></i>  @notif</label>
+            </div>
+        }
+    </div>

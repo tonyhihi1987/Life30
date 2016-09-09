@@ -15,7 +15,17 @@
         });
     }
 
-    $().ready(function () {       
+    $().ready(function () {
+
+        $.get("/Notification/GetObjectifs",
+              {                  
+              },
+                function (obj) {
+                    (
+                        $("#appendto").html(obj)
+                    )
+                    });
+
         $(this).css({"background":""});
         $("#date").val("");        
 

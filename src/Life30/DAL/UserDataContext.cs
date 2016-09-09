@@ -31,6 +31,11 @@ namespace Life30.DAL
             return UsersList.Where(a => a.Name.Equals(name)).Select(a => a.Id).FirstOrDefault();
         }
 
+        public string GetUserNameWhithId(int id)
+        {
+            return UsersList.Where(a => a.Id.Equals(id)).Select(a => a.Name).FirstOrDefault();
+        }
+
         public void AddNewUser(string name)
         {
             UsersList.Add(new User { Name = name });

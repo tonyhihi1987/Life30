@@ -126,32 +126,21 @@ label.control-label span { cursor: pointer; }
     margin-top:15px;
 }
 
-.demo-section {
-        width: 600px;
-        padding: 20px 30px;
-    }
-
-        .demo-section:after {
-            content: "";
-            display: block;
-            clear: both;
-            height: 0;
-        }
-
-        .demo-section p {
-            margin: 3px 0 20px;
-            line-height: 40px;
-        }
-
-        .demo-section .k-button {
-            width: 200px;
-        }
-
-    #appendto {
-        height: 170px;
+.notification{
+    border-radius:4px;
+    margin-top:10px;
+    margin-left:15px;
+    margin-right:15px;
+    background-color:#F5F5F5;
+    font-size:small;
+    color:grey;
+}
+#appendto {
         border-radius:4px;
         background-color:transparent;
         margin: 1em 0;
+
+        /*height:536px;*/
         margin-top:30px;
         overflow: auto;
     }
