@@ -1,5 +1,6 @@
 ﻿using DotNet.Highcharts.Helpers;
 using DotNet.Highcharts.Options;
+using Life30.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -69,7 +70,7 @@ namespace Life30.Models.Charts
                 {
                     Name = item,
                     Data = ComputeData(),
-                    Color = colors[i]
+                    Color = ColorManager.TaskColors[item]
                 });
                 i++;
             }

@@ -175,7 +175,7 @@ namespace Life30.Controllers
         private void SetCharts(string task,string name ,DateTime startDate, DateTime endDate,ObjectifViewModel objVm)
         {
             var objectifs = objCtx.GetObjectifsByType(task);
-            ACharts chart = new Gauge(name, new Dictionary<string, List<Objectif>> { { name, objectifs.Where(a=>a.Date>=startDate && a.Date<=endDate).ToList() } });
+            ACharts chart = new Gauge(task,name, new Dictionary<string, List<Objectif>> { { name, objectifs.Where(a=>a.Date>=startDate && a.Date<=endDate).ToList() } });
             chart.ComputeChart();
             objVm.Charts.Add(chart);
         }

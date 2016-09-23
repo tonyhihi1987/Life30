@@ -5,14 +5,16 @@ using System.Linq;
 using System;
 using System.Drawing;
 using Life30.ViewModels;
+using Life30.Helpers;
 
 namespace Life30.Models.Charts
 {
     public class Column : ACharts
     {
 
-        public Column(string name, Dictionary<string, List<Objectif>> objByType) : base(name)
+        public Column(string task,string name, Dictionary<string, List<Objectif>> objByType) : base(name)
         {
+            this.Task = task;
             this.objByType = objByType;
         }
         public override void ComputeChart()
@@ -82,7 +84,7 @@ namespace Life30.Models.Charts
                 .SetXAxis(option.XAxis)
                 .SetYAxis(option.YAxis)
                 .SetCredits(option.Credit)
-                .SetOptions(new GlobalOptions() { Colors = colors.ToArray() })
+                .SetOptions(new GlobalOptions() { Colors = new Color[] { ColorManager.TaskColors[Task] } })
                 .SetSeries(option.Series.ToArray());
 
         }
@@ -101,6 +103,7 @@ namespace Life30.Models.Charts
                 }            
                                 
             }
+            this.NbData = datas.ToArray().Count();
             return new Data(datas.ToArray());
         }
     }

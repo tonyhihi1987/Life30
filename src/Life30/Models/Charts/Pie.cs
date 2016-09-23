@@ -5,6 +5,7 @@ using System.Linq;
 using System;
 using System.Drawing;
 using Life30.ViewModels;
+using Life30.Helpers;
 
 namespace Life30.Models.Charts
 {
@@ -68,7 +69,6 @@ namespace Life30.Models.Charts
                 .SetTitle(option.Title)
                 .SetPlotOptions(option.PlotOptions)
                 .SetCredits(option.Credit)
-                .SetOptions(new GlobalOptions() { Colors = colors.ToArray() })
                 .SetSeries(option.Series.ToArray());
 
         }
@@ -81,7 +81,7 @@ namespace Life30.Models.Charts
             {
                 var nbPoint = objByType[item].Select(a => a.NbPoint).Sum();
                 var objectifs = Newtonsoft.Json.JsonConvert.SerializeObject(objByType[item]);
-                datas.Add(new { name = item, Y = nbPoint, events = new SeriesDataEvents() { Click = "function () {"
+                datas.Add(new { name = item,Color=ColorManager.TaskColors[item], Y = nbPoint, events = new SeriesDataEvents() { Click = "function () {"
                       + "$.post('/DashBoard/DisplayTasks',"
                       + $"{{objectifs:{objectifs}}}"
                       + ", function(obj) { $('#myModal').modal();$('#objInfos').html(obj);"

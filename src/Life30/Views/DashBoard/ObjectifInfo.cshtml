@@ -1,9 +1,17 @@
 ﻿@model ChartsViewModel     
-          
-            @if (Model.PointCharts != null)
+          <div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">@if (Model.PointCharts != null) { @Model.PointCharts.Task} Points Repartition</h4>
+    </div>
+    @if (Model.PointCharts != null)
             {
-                @Html.Raw(Model.PointCharts.ToHtmlString())
-            }
+        @Html.Raw(Model.PointCharts.ToHtmlString())
+    }
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+</div>
 
 
 

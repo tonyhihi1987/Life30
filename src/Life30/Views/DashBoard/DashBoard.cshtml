@@ -43,12 +43,29 @@
             </div>
         </div>
 
-        <div class="col-md-6">
-            @Html.Raw(Model.Charts[0].ToHtmlString())
+        <div class="col-md-6" style="text-align:center;padding-top:100px;padding-bottom:100px">
+            @if (Model.Charts[0].NbData > 0)
+            {
+                @Html.Raw(Model.Charts[0].ToHtmlString())
+            }
+            else
+            {
+                <img src="~/images/nodatafound.gif" />
+
+            }
         </div>
 
-        <div class="col-md-6">
-            @Html.Raw(Model.Charts[1].ToHtmlString())
+
+
+        <div class="col-md-6" style="text-align:center;padding-top:100px;padding-bottom:100px">
+           @if (Model.Charts[1].NbData > 0)
+            {
+            @Html.Raw(Model.Charts[0].ToHtmlString())
+           }
+           else
+           {
+                <img src="~/images/nodatafound.gif" />
+           }
         </div>
 
         <div class="row">
@@ -56,30 +73,21 @@
             <span class="userTitle"> Clément </span>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6" style="text-align:center">
             @Html.Raw(Model.Charts[2].ToHtmlString())
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6" style="text-align:center">
             @Html.Raw(Model.Charts[3].ToHtmlString())
         </div>
     </div>
     <!-- Modal -->
 
     <div class="modal  fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">Points Repartition</h4>
-                </div>
-                <div id="objInfos">
+        <div  id="objInfos" class="modal-dialog" role="document">
+
                     @Html.Partial("ObjectifInfo")
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
+
         </div>
     </div>
 </form>

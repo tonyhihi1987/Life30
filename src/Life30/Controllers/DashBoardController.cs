@@ -96,10 +96,16 @@ namespace Life30.Controllers
         }
 
         [HttpPost]
-        public IActionResult DisplayTasks(List<Objectif> objectifs)
+        public IActionResult DisplayTasks(string task, List<Objectif> objectifs)
         {
-            var column = new Column("Column", new Dictionary<string, List<Objectif>>() { {string.Empty, objectifs } });
-            column.ComputeChart();
+            var type = string.Empty;
+            if (objectifs.Any())
+            {
+                type = objCtx.GetObjectifTypeById(objectifs.First().ObjTypeId).Name;
+            }
+                var column = new Column(type, "Column", new Dictionary<string, List<Objectif>>() { { string.Empty, objectifs } });
+                column.ComputeChart();
+
             return PartialView("ObjectifInfo", new ChartsViewModel { PointCharts = column });
         }
     }

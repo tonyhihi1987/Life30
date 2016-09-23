@@ -12,9 +12,10 @@ namespace Life30.Models.Charts
 {
     public class Gauge : ACharts
     {
-        private string name;
-        public Gauge(string name, Dictionary<string, List<Objectif>> objByType) : base(name)
+        private string name;       
+        public Gauge(string task,string name, Dictionary<string, List<Objectif>> objByType) : base(name)
         {
+            this.Task = task;
             this.name = name;
             this.objByType = objByType;
         }
@@ -39,7 +40,7 @@ namespace Life30.Models.Charts
                     }
                 })
                 .SetCredits(new Credits { Enabled = false })
-                .SetOptions(new GlobalOptions() { Colors = colors.ToArray() })
+                .SetOptions(new GlobalOptions() { Colors = ColorManager.CompleTedColor.Values.ToArray() })
                 .SetSeries(new Series
                 {
                     Type = ChartTypes.Pie,
