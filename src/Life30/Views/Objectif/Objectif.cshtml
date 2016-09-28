@@ -56,13 +56,13 @@
             {
                 <div class="panel panel-default">
                     <div class="panel-heading" style="text-align:center" >
-                        <label style="color:grey">Last Month</label>
+                        <label style="color:grey">This Month</label>
                     </div>
                         @Html.Raw(Model.Charts.First().ToHtmlString())
                     </div>
                     <div class="panel panel-default">
                         <div class="panel-heading" style="text-align:center">
-                            <label style="color:grey">This Month</label>
+                            <label style="color:grey">Last Month</label>
                         </div>
                         @Html.Raw(Model.Charts[1].ToHtmlString())
                     </div>
@@ -92,10 +92,10 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="row rowNoBottom">
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-default">Other...</button>
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <button type="button" class="btn btn-default dropdown-toggle"  style="position:absolute" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <span class="caret"></span>
                                                 <span class="sr-only">Toggle Dropdown</span>
                                             </button>
@@ -114,6 +114,7 @@
                                     <div class="col-md-5">
                                         <input id="inputNbPoint" asp-for="NbPoint" type="hidden" />
                                         <input id="type" hidden="hidden" asp-for="Type" />
+                                        <input id="date" type="hidden" asp-for="Date" />
                                         <input id="inputTache" type="text" asp-for="Tache" style="float:left" class="form-control" />
                                     </div>
                                 </div>

@@ -168,7 +168,7 @@ namespace Life30.Controllers
             SetItems(task, obj);
             var lastMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             var lastLastMonth = lastMonth.AddMonths(-1);
-            SetCharts(task,"ThisMonth", lastMonth,DateTime.Now,obj);
+            SetCharts(task,"ThisMonth", lastMonth, new DateTime(DateTime.Now.Year, DateTime.Now.Month,DateTime.Now.Day), obj);
             SetCharts(task,"LastMonth", lastLastMonth,lastMonth, obj);
         }
 

@@ -26,30 +26,37 @@ namespace Life30.Controllers
 
         public IActionResult DashBoard()
         {
-
-            var startDate = new DateTime();
-            var endDate = new DateTime();
-
-            if (MemoryCacher.Contain(CacheKey.START_DATE.GetDescription()))
+            if (User.IsSignedIn())
             {
-                startDate = Convert.ToDateTime(MemoryCacher.GetValue(CacheKey.START_DATE.GetDescription()));
+
+                var startDate = new DateTime();
+                var endDate = new DateTime();
+
+                if (MemoryCacher.Contain(CacheKey.START_DATE.GetDescription()))
+                {
+                    startDate = Convert.ToDateTime(MemoryCacher.GetValue(CacheKey.START_DATE.GetDescription()));
+                }
+                else
+                {
+                    startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, DateTime.Now.Day);
+                }
+
+                if (MemoryCacher.Contain(CacheKey.END_DATE.GetDescription()))
+                {
+                    endDate = Convert.ToDateTime(MemoryCacher.GetValue(CacheKey.END_DATE.GetDescription()));
+                }
+                else
+                {
+                    endDate = DateTime.Now;
+                }
+
+                var highCharts = getCharts(startDate, endDate);
+                return View(new ChartsViewModel { Charts = highCharts, StartDate = startDate, EndDate = endDate });
             }
             else
             {
-                startDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 1, DateTime.Now.Day);
+                return View("~/views/account/login");
             }
-
-            if (MemoryCacher.Contain(CacheKey.END_DATE.GetDescription()))
-            {
-                endDate = Convert.ToDateTime(MemoryCacher.GetValue(CacheKey.END_DATE.GetDescription()));
-            }
-            else
-            {
-                endDate = DateTime.Now;
-            }
-
-            var highCharts = getCharts(startDate,endDate);
-            return View(new ChartsViewModel { Charts = highCharts, StartDate = startDate,EndDate= endDate });
         }
 
         [HttpPost]

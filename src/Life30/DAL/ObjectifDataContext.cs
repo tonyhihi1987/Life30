@@ -98,11 +98,6 @@ namespace Life30.DAL
             SaveChanges();
         }
 
-        public int GetUserIdWhithName(string name)
-        {
-            return UsersList.Where(a => a.Name.Equals(name)).Select(a => a.Id).FirstOrDefault();
-        }
-
         public void UpdateObjectifs(Objectif obj)
         {
             var objectif = Objectifs.Where(a => a.Id.Equals(obj.Id)).FirstOrDefault();
@@ -114,12 +109,5 @@ namespace Life30.DAL
             objectif.Commentaire = obj.Commentaire;
             SaveChanges();            
         }
-
-        public void AddNewUser(string name)
-        {
-            UsersList.Add(new User { Name = name });
-            SaveChanges();
-
         }
     }
-}

@@ -28,7 +28,11 @@
 
 <body class="body">     
         <div class="header">
-            <div class="row rowNoBottom">
+            <div class="row rowNoBottom" style="background-color: #F5F5F5;
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    width: 86%;">
                 <div class="col-md-3" >  
                     <div class="row rowNoBottom">
                         <div class="col-md-6">
@@ -62,7 +66,7 @@
                             </a>
                         </li>
                         <li id="finances">
-                            <a asp-controller="Objectif" asp-action="Finances">
+                            <a asp-controller="Finance" asp-action="Finance">
                                 <i class="glyphicon glyphicon-euro" style="color:yellow"></i> Finances
                             </a>
                         </li>
@@ -74,7 +78,7 @@
             </div>
     </div>
 
-    <div class="row rowNoBottom" style="height:650px">
+    <div class="row rowNoBottom" style="height:650px;padding-top:65px">
 
         <div class ="col-md-10">
     <section id="content" class="content" >

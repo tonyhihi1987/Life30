@@ -101,4 +101,13 @@
                 $("#inputTache").val('');
             }
         });
+        
+
+        $("#types >li a").click(function () {
+
+            var selText = $(this).text();
+            if (selText != 'Other...') {
+                ("#btnType").val(seltext);
+            }
+        });
     });    

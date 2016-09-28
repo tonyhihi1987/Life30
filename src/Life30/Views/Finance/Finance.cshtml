@@ -1,0 +1,141 @@
+﻿@model FinanceViewModel
+<script src="~/js/finance.js"></script>
+<script>
+    $().ready(function () {
+        $("#content").slideToggle(500);
+        $("#Finance").toggleClass("active");
+    });
+</script>
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#depense">Dépenses</a></li>
+    <li><a data-toggle="tab" href="#charges">Charges</a></li>
+    <li><a data-toggle="tab" href="#statistiques">Statistiques</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="row">
+        <div id="depense" class="tab-pane fade in active">
+                <div class="row">
+                    <div class="col-md-5">
+                        <form action="@Url.Action("AddDepense", "Finance")" method="POST" class="ajax-form">
+                            <h3 style="color:lightslategrey">Nouvelle dépense</h3>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="labelFinance">Libellé</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" asp-for="@Model.CurrentDepense.Libelle" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="labelFinance">Type</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="btn-group">
+                                        <button id="btnType" type="button" class="btn btn-default">@Model.Types.First()</button>
+                                        <button type="button" class="btn btn-default dropdown-toggle" style="position:absolute" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="caret"></span>
+                                            <span class="sr-only">Toggle Dropdown</span>
+                                        </button>
+                                        <ul id="types" class="dropdown-menu">
+                                            @if (Model.Types.Any())
+                                            {
+                                                foreach (var value in Model.Types)
+                                                {
+                                                    <li><a>@value</a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="labelFinance">Montant</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" asp-for="@Model.CurrentDepense.Montant" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label class="labelFinance">Date</label>
+                                </div>
+                                <div class="col-md-6">
+                                    @(Html.Kendo().DatePicker()
+                                .Name("datePicker")
+                                .Value(DateTime.Now)
+                                .Events(e =>
+                                {
+                                    e.Change("change");
+                                })
+                                    )
+                                </div>
+
+                            </div>
+
+                            <input id="date" type="hidden" asp-for="@Model.CurrentDepense.Date" class="form-control" />
+                            <input id="type" type="hidden" asp-for="@Model.CurrentDepense.Type" class="form-control" />
+                            <div class="row">
+                                <div class="col-md-6">
+                                </div>
+                                <div class="col-md-1">
+                                    <button id="submit" type="submit" class="btn btn-primary">Ajouter</button>
+                                </div>
+                            </div>
+                        </form>
+        </div>
+                    <div class="col-md-7">
+                        <h3 style="color:lightslategrey">Liste des dépenses</h3>
+                        <hr />
+
+                        <div id="Grid">
+                            @(Html.Kendo().Grid<Depense>()
+    .Name("Grid")
+    .Groupable()
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.Libelle);
+        columns.Bound(o => o.Montant);
+        columns.Bound(o => o.Type);
+        columns.Bound(o => o.Date);
+
+        columns.Command(command => { command.Edit(); command.Destroy(); }).Width(172);
+    })
+        .Pageable()
+        .Filterable()
+        .Sortable()
+        .ColumnMenu()
+        .Editable(editable => editable.Mode(GridEditMode.InLine))
+        .Sortable(true)
+        .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(4)
+        .Create(update => update.Action("EditingInline_Create", "Finance"))
+        .Read(read => read.Action("EditingInline_Read", "Finance"))
+        .Update(update => update.Action("EditingInline_Update", "Finance"))
+        .Destroy(update => update.Action("EditingInline_Destroy", "Finance"))
+     )
+                            )
+
+                        </div>
+                    </div>
+                </div>
+</div>
+            <div id="charges" class="tab-pane fade">
+            </div>
+            <div id="statistiques" class="tab-pane fade">
+            </div>
+        </div>
+       
+    </div>
+<script>
+    function change() {
+        $('#date').val(kendo.toString(this.value(), 'd'));
+    }
+</script>

@@ -1,4 +1,6 @@
 ﻿@model NotificationViewModel 
+@if (Model.Notifs.Any())
+{
 <div class="panel panel-default">
     <div class="panel-heading" style="text-align:center">
         <label style="color:grey">Notifications</label>
@@ -12,3 +14,5 @@
             </div>
         }
     </div>
+
+}

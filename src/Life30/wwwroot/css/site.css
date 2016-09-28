@@ -21,6 +21,11 @@ select,
 textarea {
     max-width: 280px;
 }
+.labelFinance{
+    font-size:initial;
+    font-family:Calibri;
+    color:gray;
+}
 
 .userTitle{
     font-family:Calibri;
@@ -28,10 +33,7 @@ textarea {
     font-weight:bold
 }
 .header{
-    position:center;
-    margin-top:20px;
-    background-color:#F5F5F5;
-      
+     
 }
 .nav-pills > li > a{
     border-radius:0px!important;

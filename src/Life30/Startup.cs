@@ -51,9 +51,12 @@ namespace MyWebApplication
                 .AddDbContext<ObjectifDataContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]))
                     .AddDbContext<UserDataContext>(options =>
+                    options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]))
+                    .AddDbContext<DepenseDataContext>(options =>
                     options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<DepenseDataContext>()
                 .AddEntityFrameworkStores<ObjectifDataContext>()
                 .AddEntityFrameworkStores<UserDataContext>()
                 .AddDefaultTokenProviders();
@@ -65,6 +68,8 @@ namespace MyWebApplication
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<IUserDataContext, UserDataContext>();
             services.AddScoped<IObjectifDataContext, ObjectifDataContext>();
+            services.AddScoped<IChargeDataContext, ChargeDataContext>();
+            services.AddScoped<IDepenseDataContext, DepenseDataContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -120,7 +125,7 @@ namespace MyWebApplication
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=DashBoard}/{action=DashBoard}/{id?}");
             });
         }
 
